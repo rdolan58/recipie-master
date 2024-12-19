@@ -17,10 +17,10 @@ export const APP_ROUTE: Route[] = [
                     import('./dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTE),
             },
             {
-                path: 'advance-table',
+                path: 'team-manager',
                 loadChildren: () =>
-                    import('./advance-table/advance-table.routes').then(
-                        (m) => m.ADVANCE_TABLE_ROUTE
+                    import('./team-manager/team-manager.routes').then(
+                        (m) => m.TEAM_MANAGER_ROUTE
                     ),
             },
             {

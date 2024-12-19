@@ -7,9 +7,9 @@ import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-advance-table',
-  templateUrl: './advance-table.component.html',
-  styleUrls: ['./advance-table.component.sass'],
+  selector: 'app-team-manager',
+  templateUrl: './team-manager.component.html',
+  styleUrls: ['./team-manager.component.sass'],
   standalone: true,
   imports: [
     RouterLink,
@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
   providers: []
 
 })
-export class AdvanceTableComponent implements OnInit {
+export class TeamManagementComponent implements OnInit {
   @ViewChild(DatatableComponent, { static: false }) table!: DatatableComponent;
   rows = [];
   scrollBarHorizontal = window.innerWidth < 1200;
