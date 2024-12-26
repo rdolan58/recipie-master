@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
+import { UserService } from '@core/service/user.service';
 
 @Component({
   selector: 'app-team-manager',
@@ -39,45 +40,46 @@ export class TeamManagementComponent implements OnInit {
   columns = [
     { name: 'First Name' },
     { name: 'Last Name' },
-    { name: 'Designation' },
-    { name: 'Gender' },
-    { name: 'Phone' },
+    { name: 'User name' },
     { name: 'Email' },
     { name: 'Status' },
-    { name: 'Address' },
+    { name: 'Role' },
+    { name: 'Date Created' },
+    { name: 'Last Login' },
+    
   ];
   genders = [
     { id: '1', value: 'male' },
     { id: '2', value: 'female' },
   ];
-  statusType = [
-    { id: '1', value: 'Active' },
-    { id: '2', value: 'Completed' },
-    { id: '3', value: 'Pending' },
+  public statusType = [
+    { id: true, value: 'Active' },
+    { id: false,value: 'In Active' },
   ];
-  designationType = [
-    { id: '1', value: 'Manager' },
-    { id: '2', value: 'Team Leader' },
-    { id: '3', value: 'Clerk' },
+  public designationType = [
+    { id: true, value: 'Admin' },
+    { id: false, value: 'User' },  
   ];
+
   @ViewChild(DatatableComponent, { static: false }) table2!: DatatableComponent;
   selection!: SelectionType;
   constructor(
     private fb: UntypedFormBuilder,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
   ) {
     this.editForm = this.fb.group({
       id: new UntypedFormControl(),
       img: new UntypedFormControl(),
       firstName: new UntypedFormControl(),
       lastName: new UntypedFormControl(),
-      designation: new UntypedFormControl(),
-      phone: new UntypedFormControl(),
+      userName: new UntypedFormControl(),
       email: new UntypedFormControl(),
       status: new UntypedFormControl(),
-      gender: new UntypedFormControl(),
-      address: new UntypedFormControl(),
+      designationRole:  new UntypedFormControl(),
+      dateCreated: new UntypedFormControl(),
+      lastLogin: new UntypedFormControl(),
     });
     window.onresize = () => {
       this.scrollBarHorizontal = window.innerWidth < 1200;
@@ -115,7 +117,7 @@ export class TeamManagementComponent implements OnInit {
   }
   ngOnInit() {
     this.fetch((data: any) => {
-      this.data = data;
+      this.data = data.results;
       this.filteredData = data;
       setTimeout(() => {
         this.loadingIndicator = false;
@@ -126,26 +128,28 @@ export class TeamManagementComponent implements OnInit {
       img: [''],
       firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]+')]],
       lastName: [''],
-      designation: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-      email: [
-        '',
-        [Validators.required, Validators.email, Validators.minLength(5)],
-      ],
-      status: ['', [Validators.required]],
-      address: [''],
+      userName: [''],
+      email: [''],
+      designation: [''],
+      status: [''],
+      dateCreated: [''],
+      lastLogin: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
     });
   }
+
   // fetch data
   fetch(cb: any) {
-    const req = new XMLHttpRequest();
-    req.open('GET', 'assets/data/adv-tbl-data.json');
-    req.onload = () => {
-      const data = JSON.parse(req.response);
-      cb(data);
-    };
-    req.send();
+
+    this.userService.getAllUsers().subscribe({
+      next: (data) => {
+        //this.data = data;
+        cb(data);
+      },
+      error: (error) => {
+        console.error('Error fetching user data:', error);
+      },
+    });
+ 
   }
   // add new record
   addRow(content: any) {
@@ -170,11 +174,8 @@ export class TeamManagementComponent implements OnInit {
       firstName: row.firstName,
       lastName: row.lastName,
       designation: row.designation,
-      phone: row.phone,
       email: row.email,
-      gender: row.gender,
       status: row.status,
-      address: row.address,
     });
     this.selectedRowData = row;
   }
@@ -217,11 +218,8 @@ export class TeamManagementComponent implements OnInit {
         value.firstName = form.value.firstName;
         value.lastName = form.value.lastName;
         value.designation = form.value.designation;
-        value.phone = form.value.phone;
-        value.gender = form.value.gender;
         value.email = form.value.email;
         value.status = form.value.status;
-        value.address = form.value.address;
       }
       this.modalService.dismissAll();
       return true;
@@ -270,6 +268,18 @@ export class TeamManagementComponent implements OnInit {
   deleteRecordSuccess(count: number) {
     this.toastr.error(count + ' Records Deleted Successfully', '');
   }
+
+  getStatusValue(isTrue: boolean): string {
+    const status = this.statusType.find(status => status.id === isTrue);
+    return status ? status.value : 'Unknown';
+  }
+
+  getDesignationValue(isTrue: boolean): string {
+    const status = this.designationType.find(status => status.id === isTrue);
+    return status ? status.value : 'Unknown';
+  }
+
+
 }
 export interface selectRowInterface {
   img: string;

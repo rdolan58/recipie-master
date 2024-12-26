@@ -58,49 +58,75 @@
               </ngx-datatable-column>
               <ngx-datatable-column [width]="200" name="Name">
                 <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
-                  <img src="{{ row.img }}" class="data-table-img" />
+                  <!-- <img src="{{ row.img }}" class="data-table-img" /> -->
                   <div class="name-col-style">
-                    <div>{{row.firstName}} {{row.lastName}}</div>
-                    <div class="font-12 text-muted">{{row.designation}}</div>
+                    <div>{{row.first_name}} {{row.last_name}}</div>
+
+                    <div class="font-12 text-muted">
+                      {{ getDesignationValue(row.is_superuser)}}
+                    </div>
+    
+
+
+
                   </div>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Gender" [width]="100">
+       
+              <ngx-datatable-column name="Username">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{row.gender}}
+                  {{row.username}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Phone">
+
+
+              
+
+              <ngx-datatable-column name="Status">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <span class="truncate-text">{{row.phone}}</span>
-                </ng-template>
+                  @if (row.is_active===true) {
+                  <div class="badge-outline col-green">Active
+                  </div>
+                  }
+                  @if (row.is_active===false) {
+                  <div class="badge-outline col-red">In Active
+                  </div>
+                  }
+                </ng-template>               
               </ngx-datatable-column>
-              <ngx-datatable-column name="Email">
+                <ngx-datatable-column name="Email">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   {{row.email}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Status">
+              <ngx-datatable-column name="Role">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  @if (row.status==='Active') {
-                  <div class="badge-outline col-green">{{row.status}}
+                  @if (row.is_superuser===true) {
+                  <div class="badge-outline col-green">Admin
                   </div>
                   }
-                  @if (row.status==='Completed') {
-                  <div class="badge-outline col-red">{{row.status}}
-                  </div>
-                  }
-                  @if (row.status==='Pending') {
-                  <div class="badge-outline col-indigo">{{row.status}}
+                  @if (row.is_superuser===false) {
+                  <div class="badge-outline col-red">User
                   </div>
                   }
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Address">
+
+
+              <ngx-datatable-column name="Date Created">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <span class="truncate-text">{{row.address}}</span>
+                  {{row.date_joined}}
                 </ng-template>
               </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Last Login">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.last_login}}
+                </ng-template>
+              </ngx-datatable-column>
+
+
               <ngx-datatable-column name="Actions" [sortable]="false">
                 <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                   <span>
@@ -114,6 +140,9 @@
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>
+
+
+
             <!-- Add Record Modal Window -->
             <ng-template #addRecord let-modal>
               <div class="modal-header editRowModal">
@@ -224,6 +253,9 @@
                 </form>
               </div>
             </ng-template>
+
+
+
             <!-- Edit Record Modal Window -->
             <ng-template #editRecord let-modal>
               <div class="modal-header editRowModal">

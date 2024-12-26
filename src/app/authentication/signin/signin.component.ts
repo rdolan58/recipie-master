@@ -28,7 +28,7 @@ export class SigninComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['rdolan', Validators.required],
+      userName: ['rdolan', Validators.required],
       password: ['usuck021', Validators.required],
       remember: [''],
     });
@@ -41,11 +41,11 @@ export class SigninComponent implements OnInit {
     this.error = '';
 
     if (this.loginForm.invalid) {
-      this.error = 'Username and Password not valid !';
+      this.error = 'UserName and Password not valid !';
       return;
     } else {
       this.authService
-        .login(this.f['username'].value, this.f['password'].value)
+        .login(this.f['userName'].value, this.f['password'].value)
         .subscribe({
           next: (res) => {
             if (res) {

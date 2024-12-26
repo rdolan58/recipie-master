@@ -32,7 +32,7 @@ export class AuthService {
       map((response) => {
         const user: User = {
           id: 1, // This can be replaced with actual user data if available from the API
-          username,
+          userName: username,
           firstName: 'FirstName', // Placeholder; replace with actual data if available
           lastName: 'LastName', // Placeholder; replace with actual data if available
           password: '',
@@ -79,7 +79,7 @@ export class AuthService {
 //   private users = [
 //     {
 //       id: 1,
-//       username: 'admin@email.com',
+//       userName: 'admin@email.com',
 //       password: 'admin@123',
 //       firstName: 'Ray',
 //       lastName: 'Dolan',
@@ -99,9 +99,9 @@ export class AuthService {
 //     return this.currentUserSubject.value;
 //   }
 
-//   login(username: string, password: string) {
+//   login(userName: string, password: string) {
 
-//     const user = this.users.find((u) => u.username === username && u.password === password);
+//     const user = this.users.find((u) => u.userName === userName && u.password === password);
 
 //     if (!user) {
 //       return this.error('Username or password is incorrect');
@@ -110,7 +110,7 @@ export class AuthService {
 //       this.currentUserSubject.next(user);
 //       return this.ok({
 //         id: user.id,
-//         username: user.username,
+//         userName: user.userName,
 //         firstName: user.firstName,
 //         lastName: user.lastName,
 //         token: user.token,
@@ -122,7 +122,7 @@ export class AuthService {
 //   }
 //   ok(body?: {
 //     id: number;
-//     username: string;
+//     userName: string;
 //     firstName: string;
 //     lastName: string;
 //     token: string;

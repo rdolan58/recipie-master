@@ -13,8 +13,8 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Method to retrieve token
-  signIn(username: string, password: string): Observable<string> {
-    const body = { username, password };
+  signIn(userName: string, password: string): Observable<string> {
+    const body = { userName, password };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post<{ access: string }>(this.tokenEndpoint, body, { headers }).pipe(
