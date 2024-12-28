@@ -186,27 +186,23 @@
                       }
                     </div>
                   </div>
+
+
                   <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-                      <label>Phone<span class="text-danger">*</span></label>
-                      <input type="number" class="form-control" placeholder="Phone" formControlName="phone" required>
-                      @if (!register.get('phone')?.valid && register.get('phone')?.touched) {
-                      <small class="form-text text-danger"> Phone is
+
+                    <!-- This one   -->
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <label>User name<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" placeholder="UserName" formControlName="userName" required>
+                      @if (!register.get('userName')?.valid && register.get('useName')?.touched) {
+                      <small class="form-text text-danger"> User Name is
                         required</small>
                       }
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-                      <label>Gender <span class="text-danger">*</span></label>
-                      <select class="form-select form-control" formControlName="gender" required>
-                        <option value="" selected disabled>Please select</option>
-                        @for (gender of genders; track gender) {
-                        <option [value]="gender.value">
-                          {{gender.value}}
-                        </option>
-                        }
-                      </select>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+
+
+
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Designation <span class="text-danger">*</span></label>
                       <select class="form-select form-control" formControlName="designation" required>
                         <option value="" selected disabled>Please select</option>
@@ -218,6 +214,8 @@
                       </select>
                     </div>
                   </div>
+
+
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Email<span class="text-danger">*</span></label>
@@ -239,13 +237,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                      <label>Address<span class="text-danger"></span></label>
-                      <textarea type="textarea" class="form-control" placeholder="Address"
-                        formControlName="address"></textarea>
-                    </div>
-                  </div>
+
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" [disabled]="!register.valid">Submit</button>
                     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
@@ -261,11 +253,13 @@
               <div class="modal-header editRowModal">
                 <h4 class="modal-title" id="modal-basic-title">
                   <div class="table-modal-header">
-                    <img [src]='selectedRowData!.img' alt="avatar">
+                    <img [src]='newUserImg' alt="avatar">
+                    <!-- <img [src]='selectedRowData!.img' alt="avatar">
+   -->
                     <div class="modal-about">
                       <div class="fw-bold p-t-10 font-17">
-                        {{selectedRowData!.firstName}}
-                        {{selectedRowData!.lastName}}</div>
+                        {{selectedRowData!.first_name}}
+                        {{selectedRowData!.last_name}}</div>
                     </div>
                   </div>
                 </h4>
@@ -297,26 +291,23 @@
                       }
                     </div>
                   </div>
+
+
+
+
                   <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-                      <label>Phone<span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="Phone" formControlName="phone" required>
-                      @if (!editForm.get('phone')?.valid && editForm.get('phone')?.touched) {
-                      <small class="form-text text-danger"> Phone is
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <label>User name<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" placeholder="User name" formControlName="userName" required>
+                      @if (!editForm.get('userName')?.valid && editForm.get('userName')?.touched) {
+                      <small class="form-text text-danger"> User name is
                         required</small>
                       }
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-                      <label>Gender <span class="text-danger">*</span></label>
-                      <select class="form-select form-control" formControlName="gender" required>
-                        @for (gender of genders; track gender) {
-                        <option [value]="gender.value">
-                          {{gender.value}}
-                        </option>
-                        }
-                      </select>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+
+
+
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Designation <span class="text-danger">*</span></label>
                       <select class="form-select form-control" formControlName="designation" required>
                         <option value="" selected disabled>Please select</option>
@@ -327,7 +318,12 @@
                         }
                       </select>
                     </div>
+
+
                   </div>
+
+
+
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Email<span class="text-danger">*</span></label>
@@ -337,6 +333,8 @@
                         email address</small>
                       }
                     </div>
+
+
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Status <span class="text-danger">*</span></label>
                       <select class="form-select form-control" formControlName="status" required>
@@ -348,14 +346,11 @@
                         }
                       </select>
                     </div>
+
                   </div>
-                  <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                      <label>Address<span class="text-danger"></span></label>
-                      <textarea type="textarea" class="form-control" placeholder="Address"
-                        formControlName="address"></textarea>
-                    </div>
-                  </div>
+
+
+
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid">Save</button>
                     <button type="button" class="btn btn-light" (click)="modal.close()">Close</button>

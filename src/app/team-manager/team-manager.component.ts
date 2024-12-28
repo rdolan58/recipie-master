@@ -71,15 +71,15 @@ export class TeamManagementComponent implements OnInit {
   ) {
     this.editForm = this.fb.group({
       id: new UntypedFormControl(),
-      img: new UntypedFormControl(),
+      //img: new UntypedFormControl(),
       firstName: new UntypedFormControl(),
       lastName: new UntypedFormControl(),
       userName: new UntypedFormControl(),
       email: new UntypedFormControl(),
       status: new UntypedFormControl(),
-      designationRole:  new UntypedFormControl(),
-      dateCreated: new UntypedFormControl(),
-      lastLogin: new UntypedFormControl(),
+      designation:  new UntypedFormControl(),
+      //dateCreated: new UntypedFormControl(),
+      //lastLogin: new UntypedFormControl(),
     });
     window.onresize = () => {
       this.scrollBarHorizontal = window.innerWidth < 1200;
@@ -118,22 +118,22 @@ export class TeamManagementComponent implements OnInit {
   ngOnInit() {
     this.fetch((data: any) => {
       this.data = data.results;
-      this.filteredData = data;
+      this.filteredData = this.data;
       setTimeout(() => {
         this.loadingIndicator = false;
       }, 500);
     });
     this.register = this.fb.group({
       id: [''],
-      img: [''],
+      //img: [''],
       firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]+')]],
       lastName: [''],
       userName: [''],
-      email: [''],
-      designation: [''],
-      status: [''],
+      email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
+      designation: ['', [Validators.required]],
+      status: ['', [Validators.required]],
       dateCreated: [''],
-      lastLogin: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
+      lastLogin: [''],
     });
   }
 
@@ -170,12 +170,12 @@ export class TeamManagementComponent implements OnInit {
     });
     this.editForm.setValue({
       id: row.id,
-      img: row.img,
-      firstName: row.firstName,
-      lastName: row.lastName,
-      designation: row.designation,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      userName: row.username,
+      designation: this.getDesignationValue(row.is_superuser),
       email: row.email,
-      status: row.status,
+      status: this.getStatusValue(row.is_active),
     });
     this.selectedRowData = row;
   }
@@ -216,10 +216,12 @@ export class TeamManagementComponent implements OnInit {
     this.data = this.data.filter((value, key) => {
       if (value.id == form.value.id) {
         value.firstName = form.value.firstName;
+        value.userName = form.value.userName
         value.lastName = form.value.lastName;
         value.designation = form.value.designation;
         value.email = form.value.email;
         value.status = form.value.status;
+        //value.img = form.value.img;
       }
       this.modalService.dismissAll();
       return true;
@@ -282,7 +284,8 @@ export class TeamManagementComponent implements OnInit {
 
 }
 export interface selectRowInterface {
-  img: string;
-  firstName: string;
-  lastName: string;
+  //img: string;
+  id: BigInteger;
+  first_name: string;
+  last_name: string;
 }
