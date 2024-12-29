@@ -1,11 +1,11 @@
 export class User {
   id!: number;
   userName!: string;
-  password!: string;
+  password?: string;
   firstName!: string;
   lastName!: string;
-  token!: string;
-  img!: string;
+  token?: string;
+  img?: string;
   is_superuser?: boolean;
   is_staff?: boolean;
   is_active?: boolean;
