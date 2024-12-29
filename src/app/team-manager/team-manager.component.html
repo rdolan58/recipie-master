@@ -170,17 +170,17 @@
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>First name <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="First name" formControlName="firstName"
+                      <input type="text" class="form-control" placeholder="First name" formControlName="first_name"
                         required>
-                      @if (!register.get('firstName')?.valid && register.get('firstName')?.touched) {
+                      @if (!register.get('first_name')?.valid && register.get('first_name')?.touched) {
                       <small class="form-text text-danger"> First name is
                         required</small>
                       }
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Last name <span class="text-danger"></span></label>
-                      <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
-                      @if (!register.get('lastName')?.valid && register.get('lastName')?.touched) {
+                      <input type="text" class="form-control" placeholder="Last name" formControlName="last_name">
+                      @if (!register.get('last_name')?.valid && register.get('last_name')?.touched) {
                       <small class="form-text text-danger"> Last name is
                         required</small>
                       }
@@ -193,8 +193,8 @@
                     <!-- This one   -->
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>User name<span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="UserName" formControlName="userName" required>
-                      @if (!register.get('userName')?.valid && register.get('useName')?.touched) {
+                      <input type="text" class="form-control" placeholder="UserName" formControlName="username" required>
+                      @if (!register.get('username')?.valid && register.get('username')?.touched) {
                       <small class="form-text text-danger"> User Name is
                         required</small>
                       }
@@ -275,17 +275,17 @@
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>First name <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="First name" formControlName="firstName"
+                      <input type="text" class="form-control" placeholder="First name" formControlName="first_name"
                         required>
-                      @if (!editForm.get('firstName')?.valid && editForm.get('firstName')?.touched) {
+                      @if (!editForm.get('first_name')?.valid && editForm.get('first_name')?.touched) {
                       <small class="form-text text-danger"> First name is
                         required</small>
                       }
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>Last name <span class="text-danger"></span></label>
-                      <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
-                      @if (!editForm.get('lastName')?.valid && editForm.get('lastName')?.touched) {
+                      <input type="text" class="form-control" placeholder="Last name" formControlName="last_name">
+                      @if (!editForm.get('last_name')?.valid && editForm.get('last_name')?.touched) {
                       <small class="form-text text-danger"> Last name is
                         required</small>
                       }
@@ -298,8 +298,8 @@
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                       <label>User name<span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="User name" formControlName="userName" required>
-                      @if (!editForm.get('userName')?.valid && editForm.get('userName')?.touched) {
+                      <input type="text" class="form-control" placeholder="User name" formControlName="username" required>
+                      @if (!editForm.get('username')?.valid && editForm.get('username')?.touched) {
                       <small class="form-text text-danger"> User name is
                         required</small>
                       }

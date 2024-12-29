@@ -32,12 +32,12 @@ export class AuthService {
       map((response) => {
         const user: User = {
           id: 1, // This can be replaced with actual user data if available from the API
-          userName: username,
-          firstName: 'FirstName', // Placeholder; replace with actual data if available
-          lastName: 'LastName', // Placeholder; replace with actual data if available
+          username: username,
+          first_name: 'FirstName', // Placeholder; replace with actual data if available
+          last_name: 'LastName', // Placeholder; replace with actual data if available
           password: '',
           token: response.access,
-          img: '',
+          //img: '',
           is_superuser: false,
           is_staff: false,
           is_active: false, 

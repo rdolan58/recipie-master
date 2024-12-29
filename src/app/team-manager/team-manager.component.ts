@@ -6,6 +6,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
 import { UserService } from '@core/service/user.service';
+import {User} from '@core/models/user';
 
 @Component({
   selector: 'app-team-manager',
@@ -46,7 +47,7 @@ export class TeamManagementComponent implements OnInit {
     { name: 'Role' },
     { name: 'Date Created' },
     { name: 'Last Login' },
-    
+
   ];
   genders = [
     { id: '1', value: 'male' },
@@ -54,11 +55,11 @@ export class TeamManagementComponent implements OnInit {
   ];
   public statusType = [
     { id: true, value: 'Active' },
-    { id: false,value: 'In Active' },
+    { id: false, value: 'In Active' },
   ];
   public designationType = [
     { id: true, value: 'Admin' },
-    { id: false, value: 'User' },  
+    { id: false, value: 'User' },
   ];
 
   @ViewChild(DatatableComponent, { static: false }) table2!: DatatableComponent;
@@ -72,12 +73,12 @@ export class TeamManagementComponent implements OnInit {
     this.editForm = this.fb.group({
       id: new UntypedFormControl(),
       //img: new UntypedFormControl(),
-      firstName: new UntypedFormControl(),
-      lastName: new UntypedFormControl(),
-      userName: new UntypedFormControl(),
+      first_name: new UntypedFormControl(),
+      last_name: new UntypedFormControl(),
+      username: new UntypedFormControl(),
       email: new UntypedFormControl(),
       status: new UntypedFormControl(),
-      designation:  new UntypedFormControl(),
+      designation: new UntypedFormControl(),
       //dateCreated: new UntypedFormControl(),
       //lastLogin: new UntypedFormControl(),
     });
@@ -126,14 +127,14 @@ export class TeamManagementComponent implements OnInit {
     this.register = this.fb.group({
       id: [''],
       //img: [''],
-      firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]+')]],
-      lastName: [''],
-      userName: [''],
+      first_name: ['', [Validators.required, Validators.pattern('[a-zA-Z]+')]],
+      last_name: [''],
+      username: [''],
       email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
       designation: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      dateCreated: [''],
-      lastLogin: [''],
+      date_created: [''],
+      last_login: [''],
     });
   }
 
@@ -149,7 +150,7 @@ export class TeamManagementComponent implements OnInit {
         console.error('Error fetching user data:', error);
       },
     });
- 
+
   }
   // add new record
   addRow(content: any) {
@@ -159,7 +160,7 @@ export class TeamManagementComponent implements OnInit {
     });
     this.register.patchValue({
       id: this.getId(10, 100),
-      img: this.newUserImg,
+      //img: this.newUserImg,
     });
   }
   // edit record
@@ -170,9 +171,9 @@ export class TeamManagementComponent implements OnInit {
     });
     this.editForm.setValue({
       id: row.id,
-      firstName: row.first_name,
-      lastName: row.last_name,
-      userName: row.username,
+      first_name: row.first_name,
+      last_name: row.last_name,
+      username: row.username,
       designation: this.getDesignationValue(row.is_superuser),
       email: row.email,
       status: this.getStatusValue(row.is_active),
@@ -203,58 +204,171 @@ export class TeamManagementComponent implements OnInit {
       return element.id !== id;
     });
   }
-  // save add new record
+
   onAddRowSave(form: UntypedFormGroup) {
-    this.data.push(form.value);
-    this.data = [...this.data];
-    form.reset();
-    this.modalService.dismissAll();
-    this.addRecordSuccess();
-  }
-  // save record on edit
-  onEditSave(form: UntypedFormGroup) {
-    this.data = this.data.filter((value, key) => {
-      if (value.id == form.value.id) {
-        value.firstName = form.value.firstName;
-        value.userName = form.value.userName
-        value.lastName = form.value.lastName;
-        value.designation = form.value.designation;
-        value.email = form.value.email;
-        value.status = form.value.status;
-        //value.img = form.value.img;
-      }
-      this.modalService.dismissAll();
-      return true;
+    // Prepare the new user data from the form
+    const newUser: User = {
+      is_active: this.getBooleanFromStatus(form.value.status),
+      is_superuser: this.getBooleanFromDesignation(form.value.designation),
+      password: 'password123', // Default password for new users
+      is_staff: true, // Default value for new users
+      first_name: form.value.first_name,
+      username: form.value.username,
+      last_name: form.value.last_name,
+      email: form.value.email,
+    };
+  
+
+
+    // Call the UserService to save the user to the database
+    this.userService.createUser(newUser).subscribe({
+      next: (createdUser) => {
+        // Add the created user to the local data array
+        this.data.push(createdUser);
+        this.data = [...this.data]; // Trigger change detection
+        this.table.recalculate();  // Refresh the table view
+  
+        // Close the modal and reset the form
+        this.modalService.dismissAll();
+        form.reset();
+  
+        // Show success notification
+        this.addRecordSuccess();
+      },
+      error: (error) => {
+        console.error('Error adding user:', error);
+      },
     });
+  }
+  
+
+  // save add new record
+  // onAddRowSave(form: UntypedFormGroup) {
+  //   this.data.push(form.value);
+  //   this.data = [...this.data];
+
+  //   // Assuming `this.data` is an array of objects like:
+  //   // [{ status: 'Active', designation: 'Admin' }, { status: 'In Active', designation: 'User' }]
+
+  //   // Translate the last item's `status` and `designation`:
+  //   if (this.data.length > 0) {
+  //     const lastItem = this.data[this.data.length - 1];
+  //     lastItem.is_active = this.getBooleanFromStatus(lastItem.status);
+  //     lastItem.is_superuser = this.getBooleanFromDesignation(lastItem.designation);
+  //   }
+
+
+
+  //   form.reset();
+  //   this.modalService.dismissAll();
+  //   this.addRecordSuccess();
+  // }
+  // save record on edit
+  // onEditSave(form: UntypedFormGroup) {
+  //   this.data = this.data.filter((value, key) => {
+  //     if (value.id == form.value.id) {
+  //       value.first_name = form.value.first_name;
+  //       value.username = form.value.username
+  //       value.last_name = form.value.last_name;
+  //       //value.designation = form.value.designation;
+  //       //value.status = form.value.status;
+  //       value.status = this.getBooleanFromStatus(form.value.status);
+  //       value.designation = this.getBooleanFromDesignation(form.value.designation);
+  //       value.email = form.value.email;
+       
+  //       //value.img = form.value.img;
+  //     }
+  //     this.modalService.dismissAll();
+  //     return true;
+  //   });
+  //   this.editRecordSuccess();
+  // }
+
+  onEditSave(form: UntypedFormGroup) {
+    // Update the data array
+    this.data = this.data.map((item) => {
+      if (item.id === form.value.id) {
+        return {
+          ...item,
+          first_name: form.value.first_name,
+          username: form.value.username,
+          last_name: form.value.last_name,
+          is_active: this.getBooleanFromStatus(form.value.status),
+          is_superuser: this.getBooleanFromDesignation(form.value.designation),
+          email: form.value.email,
+        };
+      }
+      return item;
+    });
+  
+    // Update the reference to trigger change detection
+    this.data = [...this.data];
+  
+    // Recalculate table view
+    this.table.recalculate(); 
+  
+    // Close modal and show success notification
+    this.modalService.dismissAll();
     this.editRecordSuccess();
   }
+
+
+
   // filter table data
   filterDatatable(event: any) {
-    // get the value of the key pressed and make it lowercase
+    // Get the value of the key pressed and make it lowercase
     const val = event.target.value.toLowerCase();
-    // get the amount of columns in the table
+    // Get the number of columns in the table
     const colsAmt = this.columns.length;
-    // get the key names of each column in the dataset
+    // Get the key names of each column in the dataset
     const keys = Object.keys(this.filteredData[0]);
-    // assign filtered matches to the active datatable
-
+    // Assign filtered matches to the active datatable
+  
     this.data = this.filteredData.filter((item) => {
-      // iterate through each row's column data
+      // Iterate through each row's column data
       for (let i = 0; i < colsAmt; i++) {
-        // check for a match
+        const fieldValue = item[keys[i]];
+        // Check if the field value is not null or undefined before converting to string
         if (
-          item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
+          (fieldValue != null && fieldValue.toString().toLowerCase().indexOf(val) !== -1) ||
           !val
         ) {
-          // found match, return true to add to result set
+          // Found match, return true to add to result set
           return true;
         }
       }
       return false;
     });
-    // whenever the filter changes, always go back to the first page
+    // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
+  
+  // filterDatatable(event: any) {
+  //   // get the value of the key pressed and make it lowercase
+  //   const val = event.target.value.toLowerCase();
+  //   // get the amount of columns in the table
+  //   const colsAmt = this.columns.length;
+  //   // get the key names of each column in the dataset
+  //   const keys = Object.keys(this.filteredData[0]);
+  //   // assign filtered matches to the active datatable
+
+  //   this.data = this.filteredData.filter((item) => {
+  //     // iterate through each row's column data
+  //     for (let i = 0; i < colsAmt; i++) {
+  //       // check for a match
+  //       if (
+  //         item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
+  //         !val
+  //       ) {
+  //         // found match, return true to add to result set
+  //         return true;
+  //       }
+  //     }
+  //     return false;
+  //   });
+  //   // whenever the filter changes, always go back to the first page
+  //   this.table.offset = 0;
+  // }
 
   // get random id
   getId(min: number, max: number) {
@@ -281,6 +395,15 @@ export class TeamManagementComponent implements OnInit {
     return status ? status.value : 'Unknown';
   }
 
+  getBooleanFromStatus(statusValue: string): boolean  {
+    const status = this.statusType.find(status => status.value === statusValue);
+    return status ? status.id : false; // Return null if the string doesn't match any value
+  }
+
+  getBooleanFromDesignation(designationValue: string): boolean  {
+    const designation = this.designationType.find(designation => designation.value === designationValue);
+    return designation ? designation.id : false; // Return null if the string doesn't match any value
+  }
 
 }
 export interface selectRowInterface {
