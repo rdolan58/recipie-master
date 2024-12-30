@@ -15,6 +15,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
     console.log('JwtInterceptor: Intercepting request:', request.url);
     
+    if (request.url.includes('/reset-password/')) {
+      // Skip adding the Authorization header for reset-password requests
+      return next.handle(request);
+    }
+    
     let currentUser = this.authenticationService.currentUserValue;
     if (currentUser && currentUser.token) {
       request = request.clone({

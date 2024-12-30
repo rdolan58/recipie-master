@@ -18,6 +18,7 @@ export class AppComponent {
   constructor(public _router: Router) {
     this._router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
+        console.log('Navigating to:',  routerEvent.url); // Set a breakpoint here to track all route changes
         this.currentUrl = routerEvent.url.substring(
           routerEvent.url.lastIndexOf('/') + 1
         );

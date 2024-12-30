@@ -1,7 +1,7 @@
 <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
   <div class="container">
-    <div class="row">
-      <div class="auth-card">
+    <div class="auth-card">
+      <div class="row">
         <div class="col-12">
           <div class="card card-primary">
             <div class="card-header">
@@ -9,16 +9,29 @@
             </div>
             <div class="card-body">
               <p class="text-muted">We will send a link to reset your password</p>
-              <form method="POST">
+              <form (ngSubmit)="onSubmit()" [formGroup]="forgotPasswordForm">
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    [class.is-invalid]="submitted && forgotPasswordForm.controls['email'].invalid"
+                  />
+                  <div *ngIf="submitted && forgotPasswordForm.controls['email'].errors" class="invalid-feedback">
+                    <div *ngIf="forgotPasswordForm.controls['email'].errors['required']">Email is required.</div>
+                    <div *ngIf="forgotPasswordForm.controls['email'].errors['email']">Invalid email address.</div>
+                  </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                    Forgot Password
+                  <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="loading">
+                    <span *ngIf="!loading">Send Reset Link</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                   </button>
                 </div>
+                <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+                <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
               </form>
             </div>
           </div>
@@ -27,3 +40,4 @@
     </div>
   </div>
 </main>
+

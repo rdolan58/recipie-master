@@ -9,30 +9,44 @@
             </div>
             <div class="card-body">
               <p class="text-muted">Enter Your New Password</p>
-              <form method="POST">
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
-                </div>
+              <form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                   <label for="password">New Password</label>
-                  <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator"
-                    name="password" tabindex="2" required>
-                  <div id="pwindicator" class="pwindicator">
-                    <div class="bar"></div>
-                    <div class="label"></div>
+                  <input
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    formControlName="password"
+                    [class.is-invalid]="submitted && resetPasswordForm.controls['password'].invalid"
+                  />
+                  <div *ngIf="submitted && resetPasswordForm.controls['password'].errors" class="invalid-feedback">
+                    <div *ngIf="resetPasswordForm.controls['password'].errors['required']">Password is required.</div>
+                    <div *ngIf="resetPasswordForm.controls['password'].errors['minlength']">
+                      Password must be at least 6 characters.
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="password-confirm">Confirm Password</label>
-                  <input id="password-confirm" type="password" class="form-control" name="confirm-password" tabindex="2"
-                    required>
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    class="form-control"
+                    formControlName="confirmPassword"
+                    [class.is-invalid]="submitted && resetPasswordForm.errors?.['passwordMismatch']"
+                  />
+                  <div *ngIf="submitted && resetPasswordForm.errors?.['passwordMismatch']" class="invalid-feedback">
+                    Passwords do not match.
+                  </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                    Reset Password
+                  <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="loading">
+                    <span *ngIf="!loading">Reset Password</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                   </button>
                 </div>
+                <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+                <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
               </form>
             </div>
           </div>
