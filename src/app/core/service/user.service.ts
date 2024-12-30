@@ -33,7 +33,8 @@ export class UserService {
   }
 
   // Update an existing user
-  updateUser(id: number, userData: Partial<User>): Observable<User> {
+  updateUser(userData: Partial<User>): Observable<User> {
+    const id = userData.id
     return this.http.put<User>(`${this.apiUrl}${id}/`, userData);
   }
 

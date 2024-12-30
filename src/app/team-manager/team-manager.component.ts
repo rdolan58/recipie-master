@@ -240,77 +240,105 @@ export class TeamManagementComponent implements OnInit {
       },
     });
   }
+ 
+  onEditSave(form: UntypedFormGroup) {
+    // Prepare the updated user data without the password field
+    const updatedUser: Partial<User> = {
+      id: form.value.id, // Include ID for PUT request
+      first_name: form.value.first_name,
+      last_name: form.value.last_name,
+      username: form.value.username,
+      email: form.value.email,
+      is_active: this.getBooleanFromStatus(form.value.status),
+      is_superuser: this.getBooleanFromDesignation(form.value.designation),
+      is_staff: true, // Default value or dynamic if needed
+    };
   
-
-  // save add new record
-  // onAddRowSave(form: UntypedFormGroup) {
-  //   this.data.push(form.value);
-  //   this.data = [...this.data];
-
-  //   // Assuming `this.data` is an array of objects like:
-  //   // [{ status: 'Active', designation: 'Admin' }, { status: 'In Active', designation: 'User' }]
-
-  //   // Translate the last item's `status` and `designation`:
-  //   if (this.data.length > 0) {
-  //     const lastItem = this.data[this.data.length - 1];
-  //     lastItem.is_active = this.getBooleanFromStatus(lastItem.status);
-  //     lastItem.is_superuser = this.getBooleanFromDesignation(lastItem.designation);
-  //   }
-
-
-
-  //   form.reset();
-  //   this.modalService.dismissAll();
-  //   this.addRecordSuccess();
-  // }
-  // save record on edit
+    // Call the UserService to update the user
+    this.userService.updateUser(updatedUser).subscribe({
+      next: (updatedUserFromDb) => {
+        // Update local data and UI
+        this.data = this.data.map((user) =>
+          user.id === updatedUserFromDb.id ? updatedUserFromDb : user
+        );
+        this.data = [...this.data];
+        this.table.recalculate(); // Refresh the table view
+  
+        this.modalService.dismissAll();
+        form.reset();
+        this.editRecordSuccess();
+      },
+      error: (error) => {
+        console.error('Error updating user:', error);
+      },
+    });
+  }
+  
+  
   // onEditSave(form: UntypedFormGroup) {
-  //   this.data = this.data.filter((value, key) => {
-  //     if (value.id == form.value.id) {
-  //       value.first_name = form.value.first_name;
-  //       value.username = form.value.username
-  //       value.last_name = form.value.last_name;
-  //       //value.designation = form.value.designation;
-  //       //value.status = form.value.status;
-  //       value.status = this.getBooleanFromStatus(form.value.status);
-  //       value.designation = this.getBooleanFromDesignation(form.value.designation);
-  //       value.email = form.value.email;
-       
-  //       //value.img = form.value.img;
-  //     }
-  //     this.modalService.dismissAll();
-  //     return true;
+  //   // Prepare the updated user data from the form
+  //   const updatedUser: User = {
+  //     id: form.value.id, // Ensure the ID is included for the update
+  //     first_name: form.value.first_name,
+  //     last_name: form.value.last_name,
+  //     username: form.value.username,
+  //     email: form.value.email,
+  //     is_active: this.getBooleanFromStatus(form.value.status),
+  //     is_superuser: this.getBooleanFromDesignation(form.value.designation),
+  //     password: '', // Typically not updated during an edit; keep empty
+  //     is_staff: true, // Assume staff status doesn't change in the edit
+  //   };
+  
+  //   // Call the UserService to update the user in the database
+  //   this.userService.updateUser(updatedUser.id, updatedUser).subscribe({
+  //     next: (updatedUserFromDb) => {
+  //       // Update the local data array with the updated user
+  //       this.data = this.data.map((user) =>
+  //         user.id === updatedUserFromDb.id ? updatedUserFromDb : user
+  //       );
+  //       this.data = [...this.data]; // Trigger change detection
+  //       this.table.recalculate();  // Refresh the table view
+  
+  //       // Close the modal and reset the form
+  //       this.modalService.dismissAll();
+  //       form.reset();
+  
+  //       // Show success notification
+  //       this.editRecordSuccess();
+  //     },
+  //     error: (error) => {
+  //       console.error('Error updating user:', error);
+  //     },
   //   });
+  // }
+    
+  // onEditSave(form: UntypedFormGroup) {
+  //   // Update the data array
+  //   this.data = this.data.map((item) => {
+  //     if (item.id === form.value.id) {
+  //       return {
+  //         ...item,
+  //         first_name: form.value.first_name,
+  //         username: form.value.username,
+  //         last_name: form.value.last_name,
+  //         is_active: this.getBooleanFromStatus(form.value.status),
+  //         is_superuser: this.getBooleanFromDesignation(form.value.designation),
+  //         email: form.value.email,
+  //       };
+  //     }
+  //     return item;
+  //   });
+  
+  //   // Update the reference to trigger change detection
+  //   this.data = [...this.data];
+  
+  //   // Recalculate table view
+  //   this.table.recalculate(); 
+  
+  //   // Close modal and show success notification
+  //   this.modalService.dismissAll();
   //   this.editRecordSuccess();
   // }
-
-  onEditSave(form: UntypedFormGroup) {
-    // Update the data array
-    this.data = this.data.map((item) => {
-      if (item.id === form.value.id) {
-        return {
-          ...item,
-          first_name: form.value.first_name,
-          username: form.value.username,
-          last_name: form.value.last_name,
-          is_active: this.getBooleanFromStatus(form.value.status),
-          is_superuser: this.getBooleanFromDesignation(form.value.designation),
-          email: form.value.email,
-        };
-      }
-      return item;
-    });
-  
-    // Update the reference to trigger change detection
-    this.data = [...this.data];
-  
-    // Recalculate table view
-    this.table.recalculate(); 
-  
-    // Close modal and show success notification
-    this.modalService.dismissAll();
-    this.editRecordSuccess();
-  }
 
 
 
@@ -343,33 +371,6 @@ export class TeamManagementComponent implements OnInit {
     this.table.offset = 0;
   }
   
-  // filterDatatable(event: any) {
-  //   // get the value of the key pressed and make it lowercase
-  //   const val = event.target.value.toLowerCase();
-  //   // get the amount of columns in the table
-  //   const colsAmt = this.columns.length;
-  //   // get the key names of each column in the dataset
-  //   const keys = Object.keys(this.filteredData[0]);
-  //   // assign filtered matches to the active datatable
-
-  //   this.data = this.filteredData.filter((item) => {
-  //     // iterate through each row's column data
-  //     for (let i = 0; i < colsAmt; i++) {
-  //       // check for a match
-  //       if (
-  //         item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
-  //         !val
-  //       ) {
-  //         // found match, return true to add to result set
-  //         return true;
-  //       }
-  //     }
-  //     return false;
-  //   });
-  //   // whenever the filter changes, always go back to the first page
-  //   this.table.offset = 0;
-  // }
-
   // get random id
   getId(min: number, max: number) {
     // min and max included
