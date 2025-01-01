@@ -15,6 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FeatherModule } from 'angular-feather';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { AuthService } from '@core';
+import { User } from '@core';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -40,6 +42,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userType?: string;
   headerHeight = 60;
   currentRoute?: string;
+  currentUser?: User;
+
   routerObj;
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -84,11 +88,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+
+    
+    const currentUserJSON = localStorage.getItem('currentUser');
+
+    // Parse it back into a user object
+    if (currentUserJSON) {
+      this.currentUser = JSON.parse(currentUserJSON);
+    }
+
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
+
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
+
+
+
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();

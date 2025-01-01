@@ -12,4 +12,10 @@ export class User {
   date_joined?: string; // ISO timestamp format
   last_login?: string; // ISO timestamp format
   email?: string;
+
+  // Add roles and permissions
+  roles?: string[]; // Array of roles
+  permissions?: string[]; // Array of permissions
+
+  profile_image?: string;
 }

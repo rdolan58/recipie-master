@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { FeatherModule } from 'angular-feather';
 import { AuthService, InConfiguration, LanguageService, RightSidebarService } from '@core';
 import { ConfigService } from '@config/config.service';
-
+import { User } from '@core';
 
 @Component({
   selector: 'app-header',
@@ -45,6 +45,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isOpenSidebar?: boolean;
   docElement?: HTMLElement;
   isFullScreen = false;
+  currentUser?: User;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -63,6 +65,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ];
 
   ngOnInit() {
+    
+    const currentUserJSON = localStorage.getItem('currentUser');
+
+    // Parse it back into a user object
+    if (currentUserJSON) {
+      this.currentUser = JSON.parse(currentUserJSON);
+    }
+
     this.config = this.configService.configData;
     this.docElement = document.documentElement;
 
