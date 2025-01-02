@@ -45,6 +45,8 @@ export class MainComponent implements OnInit {
     total_usda_ingredients: "0",
     total_custom_ingredients: "0",
     total_projects: "0",
+    total_nutrients: "0",
+  
   };
   constructor(private dashboardDataService: DashboardDataService) {}
 

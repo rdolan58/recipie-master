@@ -58,7 +58,7 @@
               </ngx-datatable-column>
               <ngx-datatable-column [width]="200" name="Name">
                 <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
-                  <!-- <img src="{{ row.img }}" class="data-table-img" /> -->
+                  <img src="{{ row.profile_image_url }}" class="data-table-img" />
                   <div class="name-col-style">
                     <div>{{row.first_name}} {{row.last_name}}</div>
 

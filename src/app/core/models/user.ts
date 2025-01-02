@@ -18,4 +18,5 @@ export class User {
   permissions?: string[]; // Array of permissions
 
   profile_image?: string;
+  profile_image_url?: string;
 }

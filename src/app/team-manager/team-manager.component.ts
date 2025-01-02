@@ -242,6 +242,7 @@ export class TeamManagementComponent implements OnInit {
   }
  
   onEditSave(form: UntypedFormGroup) {
+    console.log("in onEditSave");
     // Prepare the updated user data without the password field
     const updatedUser: Partial<User> = {
       id: form.value.id, // Include ID for PUT request

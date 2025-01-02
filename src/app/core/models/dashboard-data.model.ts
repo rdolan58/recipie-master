@@ -6,5 +6,6 @@ export interface DashboardData {
     total_usda_ingredients: string;
     total_custom_ingredients: string;
     total_projects: string;
+    total_nutrients: string;
   }
   

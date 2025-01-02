@@ -44,6 +44,8 @@ export class AuthService {
           is_active: true, // Update if returned by API
           date_joined: '', // Update if returned by API
           last_login: '', // Update if returned by API
+          profile_image: response.profile_image,// Update if returned by API
+          profile_image_url: response.profile_image_url// Update if returned by API
         };
 
         // Save user to local storage
