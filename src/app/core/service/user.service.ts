@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -62,8 +64,40 @@ export class UserService {
       Accept: 'application/json',
     });
 
-    return this.http.put<User>(`${this.apiUrl}${id}/`, formData, { headers });
+    return this.http.patch<User>(`${this.apiUrl}${id}/`, formData, { headers });
     
+  }
+
+    // Add to UserService
+  patchUser(userData: Partial<User>, profileImage?: File): Observable<any> {
+    const formData = new FormData();
+    const id = userData.id;
+    
+    // Append JSON data as a string in the 'data' form field
+    formData.append('data', JSON.stringify(userData));
+
+    // Append the profile image if provided
+    if (profileImage) {
+      formData.append('image', profileImage);
+    }
+
+    // Set headers for multipart/form-data
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+    });
+
+    //return this.http.patch<User>(`${this.apiUrl}${id}/`, formData, { headers });
+
+    return this.http.patch<User>(`${this.apiUrl}${id}/`, formData, { headers }).pipe(
+      catchError((error) => {
+        // Log the error for debugging
+        console.error('Error during PATCH request:', error);
+  
+        // Re-throw a processed error message
+        return throwError(() => new Error(error?.error?.message || 'An unexpected error occurred.'));
+      })
+    );
+
   }
 
 }

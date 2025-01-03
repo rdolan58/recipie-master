@@ -19,6 +19,14 @@ export class AppComponent {
     this._router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
         console.log('Navigating to:',  routerEvent.url); // Set a breakpoint here to track all route changes
+
+        //DANGEROUSE?  CHECK THIS
+        // Ignore self-navigation caused by form submission
+        // if (routerEvent.url === this._router.url) {
+        //   console.log('Ignoring self-navigation:', routerEvent.url);
+        //   return;
+        // }
+
         this.currentUrl = routerEvent.url.substring(
           routerEvent.url.lastIndexOf('/') + 1
         );

@@ -14,12 +14,15 @@
     "HOME": {
       "TEXT": "Home",
       "LIST": {
-        "DASHBOARD1": "Dashboard 1",
+        "DASHBOARD1": "Dashboard",
         "DASHBOARD2": "Dashboard 2"
       }
     },
     "TEAM-MANAGER": {
       "TEXT": "Team Manager"
+    },
+    "PROFILE": {
+      "TEXT": "User Profile"
     },
     "APPS": {
       "TEXT": "-- Apps"

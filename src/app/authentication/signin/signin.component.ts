@@ -32,40 +32,47 @@ export class SigninComponent implements OnInit {
       password: ['usuck021', Validators.required],
       remember: [''],
     });
+
+    this.error = localStorage.getItem("LoginFormError") ?? '';
+
   }
   get f() {
     return this.loginForm.controls;
   }
-  onSubmit() {
-    this.submitted = true;
-    this.error = '';
-
+  onSubmit(event: Event): void {
+    event.preventDefault(); // Prevent default form submission behavior
+  
+    this.submitted = true; // Mark form as submitted
+    this.error = ''; // Clear previous errors
+  
+    // Validate the form
     if (this.loginForm.invalid) {
-      this.error = 'UserName and Password not valid !';
+      this.error = 'Username and Password are not valid!';
+      this.submitted = false; // Reset submitted flag to allow corrections
       return;
-    } else {
-      this.authService
-        .login(this.f['userName'].value, this.f['password'].value)
-        .subscribe({
-          next: (res) => {
-            if (res) {
-              if (res) {
-                const token = this.authService.currentUserValue.token;
-                if (token) {
-                  this.router.navigate(['/dashboard/main']);
-                }
-              } else {
-                this.error = 'Invalid Login';
-              }
-            } else {
-              this.error = 'Invalid Login';
-            }
-          },
-          error: (error) => {
-            this.error = error;
-            this.submitted = false;
-          },
-        });
     }
+  
+    // Perform the login
+    this.authService.login(this.f['userName'].value, this.f['password'].value).subscribe({
+      next: (res) => {
+        if (res?.token) {
+          console.log('Login successful, navigating to dashboard');
+          localStorage.removeItem("LoginFormError")
+          this.router.navigate(['/dashboard/main']);
+        } else {
+          console.log('Login failed, no token received');
+          this.error = 'Invalid login. Please try again.';
+        }
+      },
+      error: (error) => {
+        console.error('SigninComponent Login error:');
+        localStorage.setItem("LoginFormError",error);
+        this.error = "Login failed";
+        this.submitted = false; // Allow form resubmission
+       this.router.navigate(['/authentication/signin']);
+      }
+    });
   }
+ 
+
 }

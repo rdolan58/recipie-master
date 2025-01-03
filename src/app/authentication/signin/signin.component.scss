@@ -1,1 +1,8 @@
-
+.error-box {
+    width: 100%; /* Take up the full width of the column */
+    max-width: 300px; /* Match the button's max width */
+    margin: 0 auto; /* Center the error box */
+    text-align: center; /* Center the error message */
+    padding: 10px; /* Add padding for better readability */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+  }

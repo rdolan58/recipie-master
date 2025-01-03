@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userType?: string;
   headerHeight = 60;
   currentRoute?: string;
-  currentUser?: User;
+  currentUser: User | null = null;
 
   routerObj;
   constructor(
@@ -89,7 +89,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
 
-    
+    this.authService.currentUser.subscribe((user) => {
+      this.currentUser = user;
+    });
+
+
     const currentUserJSON = localStorage.getItem('currentUser');
 
     // Parse it back into a user object

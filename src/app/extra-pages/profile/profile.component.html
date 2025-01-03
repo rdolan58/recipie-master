@@ -1,0 +1,167 @@
+<section class="main-content">
+  <ul class="breadcrumb breadcrumb-style">
+    <li class="breadcrumb-item">
+      <h5 class="page-title m-b-0">Profile</h5>
+    </li>
+    <li class="breadcrumb-item bcrumb-1">
+      <a routerLink="/dashboard/main">
+        <i class="fas fa-home font-17"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">Other Pages</li>
+    <li class="breadcrumb-item">Profile</li>
+  </ul>
+  <div class="section-body">
+    <div class="row mt-sm-4">
+      <!-- Left Sidebar -->
+      <div class="col-12 col-md-12 col-lg-4">
+        <div class="card author-box">
+          <div class="card-body">
+            <div class="author-box-center">
+              <img
+                alt="image"
+                [src]="this.currentUser?.profile_image_url || 'assets/images/users/default.png'"
+                class="rounded-circle author-box-picture"
+              />
+              <div class="clearfix"></div>
+              <div class="author-box-name">
+                <a href="#" onClick="return false;">
+                  {{ profileForm.value.first_name || 'New User' }}
+                  {{ profileForm.value.last_name }}
+                </a>
+              </div>
+              <div class="author-box-job">{{ profileForm.value.bio || 'Add a bio' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Main Form -->
+      <div class="col-12 col-md-12 col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h4>Edit Profile</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="first_name">First Name</label>
+                  <input
+                    id="first_name"
+                    formControlName="first_name"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter first name"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="last_name">Last Name</label>
+                  <input
+                    id="last_name"
+                    formControlName="last_name"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter last name"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="email">Email</label>
+                  <input
+                    id="email"
+                    formControlName="email"
+                    type="email"
+                    class="form-control"
+                    placeholder="Enter email"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="username">Username</label>
+                  <input
+                    id="username"
+                    formControlName="username"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter username"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="phone">Phone</label>
+                  <input
+                    id="phone"
+                    formControlName="phone"
+                    type="tel"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="profile_image">Profile Picture</label>
+                  <input
+                    id="profile_image"
+                    type="file"
+                    (change)="onFileSelect($event)"
+                    class="form-control-file"
+                    accept="image/*"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <label for="bio">Biography</label>
+                  <textarea
+                    id="bio"
+                    formControlName="bio"
+                    class="form-control"
+                    placeholder="Write a short bio"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4" formGroupName="social_media_links">
+                  <label for="linkedIn">LinkedIn</label>
+                  <input
+                    id="linkedIn"
+                    formControlName="linkedIn"
+                    type="text"
+                    class="form-control"
+                    placeholder="LinkedIn Profile"
+                  />
+                </div>
+                <div class="form-group col-md-4" formGroupName="social_media_links">
+                  <label for="twitter">Twitter</label>
+                  <input
+                    id="twitter"
+                    formControlName="twitter"
+                    type="text"
+                    class="form-control"
+                    placeholder="Twitter Handle"
+                  />
+                </div>
+                <div class="form-group col-md-4" formGroupName="social_media_links">
+                  <label for="facebook">Facebook</label>
+                  <input
+                    id="facebook"
+                    formControlName="facebook"
+                    type="text"
+                    class="form-control"
+                    placeholder="Facebook Profile"
+                  />
+                </div>              </div>
+              <div class="form-actions text-end">
+                <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">
+                  Save Changes
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

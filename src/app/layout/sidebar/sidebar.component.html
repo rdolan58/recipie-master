@@ -14,13 +14,14 @@
           <div class="user-panel">
             <div class=" image">
               <!-- <img src="assets/images/users/default.png" class="img-circle user-img-circle" alt="User Image" /> -->
-              <img src={{currentUser?.profile_image_url}} class="img-circle user-img-circle" alt="User Image" />
+              <!-- <img src={{currentUser?.profile_image_url}} class="img-circle user-img-circle" alt="User Image" /> -->
+              <img [src]="currentUser?.profile_image_url || 'assets/images/users/default.png'" class="img-circle user-img-circle" alt="Profile Image" />
 
               
             </div>
           </div>
           <div class="profile-usertitle">
-            <div class="sidebar-userpic-name">Ray Dolan</div>
+            <div class="sidebar-userpic-name">{{currentUser?.first_name + ' ' + currentUser?.last_name }}</div>
             <div class="profile-usertitle-job ">{{'MENUITEMS.USER.POST' | translate}} </div>
           </div>
         </li>

@@ -45,6 +45,19 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: '',
     submenu: [],
   },
+
+  {
+    path: '/extra-pages/profile',
+    title: 'MENUITEMS.PROFILE.TEXT',
+    iconType: 'feather',
+    icon: 'trello',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
+
   {
     path: '',
     title: '-- Pages',

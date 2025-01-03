@@ -163,23 +163,23 @@ fa-bell"></i>
         </div>
       </div>
     </li> -->
-    <li ngbDropdown><a ngbDropdownToggle data-toggle="dropdown"
-        class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-        <img alt="image" src={{currentUser?.profile_image_url}} class="user-img-radious-style collapse-btn"> <span
-          class="d-sm-none d-lg-inline-block"></span></a>
+    <li ngbDropdown>
+      <a ngbDropdownToggle data-toggle="dropdown"
+         class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+        <img alt="image" 
+             [src]="currentUser?.profile_image_url || 'assets/images/users/default.png'" 
+             class="user-img-radious-style collapse-btn">
+        <span class="d-sm-none d-lg-inline-block"></span>
+      </a>
+    
       <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right header-dropdown pullDown">
-        <div class="dropdown-title">Hello Sarah..</div>
-        <a routerLink="/extra-pages/profile" class="dropdown-item has-icon"> <i class="far
-    fa-user"></i> Profile
-        </a> <a routerLink="/email/inbox" class="dropdown-item has-icon"> <i class="far fa-envelope"></i>
-          Email
-        </a> <a href="" onClick="return false;" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
-          Settings
+        <div class="dropdown-title">Hello {{currentUser?.first_name}}..</div>
+        <a routerLink="/extra-pages/profile" class="dropdown-item has-icon">
+          <i class="far fa-user"></i> Profile
         </a>
         <div class="dropdown-divider"></div>
-        <a href="javascript:void(0);" class="dropdown-item has-icon text-danger" (click)="logout()"> <i
-            class="fas fa-sign-out-alt"></i>
-          Logout
+        <a href="javascript:void(0);" class="dropdown-item has-icon text-danger" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
         </a>
       </div>
     </li>

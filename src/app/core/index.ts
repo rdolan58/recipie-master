@@ -6,6 +6,9 @@ export { PasswordResetService } from './service/passwordreset.service';
 export { DirectionService } from './service/direction.service';
 export { LanguageService } from './service/language.service';
 export { RightSidebarService } from './service/rightsidebar.service';
+export { UserService } from './service/user.service';
+
+
 
 // models
 
