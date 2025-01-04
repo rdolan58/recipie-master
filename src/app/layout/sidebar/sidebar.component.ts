@@ -40,6 +40,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userFullName?: string;
   userImg?: string;
   userType?: string;
+  public userPosition?: string;
+
   headerHeight = 60;
   currentRoute?: string;
   currentUser: User | null = null;
@@ -87,6 +89,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+
   ngOnInit() {
 
     this.authService.currentUser.subscribe((user) => {
@@ -105,6 +109,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
 
+    
+    if (this.currentUser?.is_superuser) {
+      this.userPosition = "Admin"
+    }
+    else {
+      this.userPosition = "User"
+
+    }
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
 

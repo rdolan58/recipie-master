@@ -8,8 +8,8 @@ export const EXTRA_PAGES_ROUTE: Route[] = [
     path: 'blank',
     component: BlankComponent,
   },
-  // {
-  //   path: 'profile',
-  //   component: ProfileComponent,
-  // },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+  },
 ];

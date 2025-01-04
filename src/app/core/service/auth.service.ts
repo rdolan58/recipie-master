@@ -49,11 +49,11 @@ export class AuthService {
           roles: response.roles, // Assign roles from response
           permissions: response.permissions, // Assign permissions from response
           token: response.access, // Store access token
-          is_superuser: false, // Update if returned by API
-          is_staff: false, // Update if returned by API
-          is_active: true, // Update if returned by API
-          date_joined: '', // Update if returned by API
-          last_login: '', // Update if returned by API
+          is_superuser: response.is_superuser, // Update if returned by API
+          is_staff: response.is_staff, // Update if returned by API
+          is_active: response.is_active, // Update if returned by API
+          date_joined: response.date_joined, // Update if returned by API
+          last_login: response.last_login, // Update if returned by API
           profile_image: response.profile_image,// Update if returned by API
           profile_image_url: response.profile_image_url, // Update if returned by API
           social_media_links: response.social_media_links,
