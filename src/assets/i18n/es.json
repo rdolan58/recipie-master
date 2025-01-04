@@ -18,6 +18,9 @@
         "DASHBOARD2": "Tablero 2"
       }
     },
+    "COMPANY-MANAGER": {
+      "TEXT": "Company Manager"
+    },
     "TEAM-MANAGER": {
       "TEXT": "Tabla de avance"
     },

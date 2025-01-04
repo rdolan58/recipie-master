@@ -16,6 +16,16 @@ export const APP_ROUTE: Route[] = [
                 loadChildren: () =>
                     import('./dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTE),
             },
+
+
+                        {
+                path: 'company-manager',
+                loadChildren: () =>
+                    import('./company-manager/company-manager.routes').then(
+                        (m) => m.COMPANY_MANAGER_ROUTE
+                    ),
+            },
+           
             {
                 path: 'team-manager',
                 loadChildren: () =>

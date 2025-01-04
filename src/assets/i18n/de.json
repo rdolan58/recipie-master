@@ -18,6 +18,11 @@
     //     "DASHBOARD2": "Dashboard 2"
     //   }
     // },
+
+    "COMPANY-MANAGER": {
+      "TEXT": "Company Manager"
+    },
+
     "TEAM-MANAGER": {
       "TEXT": "Vorab-Tabelle"
     },

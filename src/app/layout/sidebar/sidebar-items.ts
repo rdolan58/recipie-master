@@ -34,6 +34,18 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+
+  {
+    path: '/company-manager',
+    title: 'MENUITEMS.COMPANY-MANAGER.TEXT',
+    iconType: 'feather',
+    icon: 'trello',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
    {
     path: '/team-manager',
     title: 'MENUITEMS.TEAM-MANAGER.TEXT',
